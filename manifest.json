@@ -1,0 +1,46 @@
+{
+  "name": "github",
+  "version": "1.0.0",
+  "description": "FGP daemon for GitHub operations using gh CLI",
+  "protocol": "fgp@1",
+  "daemon": {
+    "entrypoint": "./target/release/fgp-github",
+    "socket": "github/daemon.sock"
+  },
+  "methods": [
+    {
+      "name": "repos",
+      "description": "List your repositories"
+    },
+    {
+      "name": "issues",
+      "description": "List issues for a repository"
+    },
+    {
+      "name": "notifications",
+      "description": "Get unread notifications"
+    },
+    {
+      "name": "pr_status",
+      "description": "Check PR status for current branch"
+    },
+    {
+      "name": "user",
+      "description": "Get current authenticated user"
+    }
+  ],
+  "skills": {
+    "claude-code": {
+      "source": "./skills/claude-code/",
+      "target": "~/.claude/skills/github-fgp/"
+    }
+  },
+  "auth": {
+    "type": "cli",
+    "provider": "gh",
+    "setup": "gh auth login"
+  },
+  "platforms": ["darwin", "linux"],
+  "repository": "https://github.com/wolfiesch/fgp-github",
+  "license": "MIT"
+}
