@@ -1,0 +1,65 @@
+# Continue rules for GitHub FGP integration
+# Place in ~/.continue/rules/
+
+rules:
+  - name: fgp-github
+    description: "Fast GitHub operations via FGP daemon (10x faster than MCP)"
+    instructions: |
+      Use `fgp call github.<method> -p '{params}'` for GitHub operations.
+
+      ## Available Methods
+
+      | Method | Description |
+      |--------|-------------|
+      | `github.repos` | List your repositories |
+      | `github.issues` | List issues for a repository |
+      | `github.notifications` | Get unread notifications |
+      | `github.pr_status` | Check PR status |
+      | `github.user` | Get authenticated user |
+
+      ## Commands
+
+      ### List Repositories
+      ```bash
+      fgp call github.repos -p '{"limit": 10}'
+      ```
+
+      ### List Issues
+      ```bash
+      fgp call github.issues -p '{"repo": "owner/repo", "state": "open", "limit": 10}'
+      ```
+      Parameters: `repo` (required), `state` (optional), `limit` (optional)
+
+      ### Get Notifications
+      ```bash
+      fgp call github.notifications
+      ```
+
+      ### Check PR Status
+      ```bash
+      fgp call github.pr_status -p '{"repo": "owner/repo"}'
+      ```
+
+      ### Get User Info
+      ```bash
+      fgp call github.user
+      ```
+
+      ## Response Format
+
+      All commands return JSON with structured data:
+      - `repos`: Array of repository objects
+      - `issues`: Array of issue objects
+      - `notifications`: Array with unread_count
+      - `count`: Number of results
+
+      ## Troubleshooting
+
+      - Check daemon: `fgp status github`
+      - Start daemon: `fgp start github`
+      - Verify auth: `gh auth status`
+
+      ## Performance
+
+      - Cold start: ~50ms
+      - Warm call: ~10-30ms (10x faster than MCP)

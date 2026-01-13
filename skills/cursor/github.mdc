@@ -1,0 +1,57 @@
+---
+description: Fast GitHub operations via FGP daemon (10x faster than MCP)
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# GitHub FGP Integration
+
+Use `fgp call github.*` commands for fast GitHub operations via persistent daemon.
+
+## Available Methods
+
+| Method | Description |
+|--------|-------------|
+| `github.repos` | List your repositories |
+| `github.issues` | List issues for a repository |
+| `github.notifications` | Get unread notifications |
+| `github.pr_status` | Check PR status for current branch |
+| `github.user` | Get authenticated user info |
+
+## Commands
+
+### List Repositories
+```bash
+fgp call github.repos -p '{"limit": 10}'
+```
+
+### List Issues
+```bash
+fgp call github.issues -p '{"repo": "owner/repo", "state": "open", "limit": 10}'
+```
+Parameters: `repo` (required), `state` (optional: open/closed/all), `limit` (optional)
+
+### Get Notifications
+```bash
+fgp call github.notifications
+```
+
+### Check PR Status
+```bash
+fgp call github.pr_status -p '{"repo": "owner/repo"}'
+```
+
+### Get User Info
+```bash
+fgp call github.user
+```
+
+## Setup
+
+1. Ensure gh CLI is authenticated: `gh auth login`
+2. Start daemon: `fgp start github`
+3. Test: `fgp call github.user`
+
+## Response Format
+
+All commands return JSON with structured data.
