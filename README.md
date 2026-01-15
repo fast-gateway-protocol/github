@@ -2,7 +2,7 @@
 
 FGP daemon for GitHub operations using the gh CLI for authentication.
 
-Part of the [Fast Gateway Protocol (FGP)](https://github.com/wolfiesch/fgp) ecosystem - the universal package manager for AI agents.
+Part of the [Fast Gateway Protocol (FGP)](https://github.com/fast-gateway-protocol) ecosystem - the universal package manager for AI agents.
 
 ## Installation
 
@@ -22,7 +22,7 @@ Part of the [Fast Gateway Protocol (FGP)](https://github.com/wolfiesch/fgp) ecos
 ### Build from Source
 
 ```bash
-git clone https://github.com/wolfiesch/fgp-github
+git clone https://github.com/fast-gateway-protocol/github
 cd fgp-github
 cargo build --release
 ```
@@ -115,7 +115,7 @@ fgp call github.repos
 
 ## Protocol
 
-Uses [FGP Protocol v1](https://github.com/wolfiesch/fgp/blob/main/FGP-PROTOCOL.md):
+Uses [FGP Protocol v1](https://github.com/fast-gateway-protocol/protocol/blob/main/FGP-PROTOCOL.md):
 
 Request:
 ```json
@@ -129,7 +129,7 @@ Response:
 
 ## Development
 
-Built with [fgp-daemon](https://github.com/wolfiesch/fgp-daemon) Rust SDK:
+Built with [daemon](https://github.com/fast-gateway-protocol/daemon) Rust SDK:
 
 ```rust
 use fgp_daemon::{FgpServer, FgpService};
