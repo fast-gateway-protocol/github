@@ -145,6 +145,74 @@ impl FgpService for GithubService {
 }
 ```
 
+## Troubleshooting
+
+### gh CLI Not Authenticated
+
+**Symptom:** Requests fail with authentication errors
+
+**Solution:**
+```bash
+# Check auth status
+gh auth status
+
+# Re-authenticate if needed
+gh auth login
+```
+
+### Permission Denied
+
+**Symptom:** "Resource not accessible" or 403 errors
+
+**Check:**
+1. Your token has required scopes: `gh auth status`
+2. You have access to the repository
+3. For private repos, ensure `repo` scope is granted
+
+### Rate Limiting
+
+**Symptom:** 429 errors or "rate limit exceeded"
+
+**Solutions:**
+1. GitHub has 5000 requests/hour for authenticated users
+2. Check remaining: `gh api rate_limit`
+3. Wait for reset or reduce request frequency
+
+### Slow Responses
+
+**Symptom:** Calls take longer than expected
+
+**Check:**
+1. gh CLI overhead is ~100-200ms per call
+2. First call may be slower (token validation)
+3. For bulk operations, consider batching
+
+### Empty Notifications
+
+**Symptom:** `notifications` returns empty when you have unread
+
+**Note:** GitHub notifications can be complex:
+1. Check web interface for comparison
+2. Some notifications may be filtered by type
+3. Use `gh api notifications` to debug
+
+### Connection Refused
+
+**Symptom:** "Connection refused" when calling daemon
+
+**Solution:**
+```bash
+# Check if daemon is running
+pgrep -f fgp-github
+
+# Restart daemon
+fgp stop github
+fgp start github
+
+# Verify gh is working
+gh api user
+```
+
 ## License
 
 MIT
