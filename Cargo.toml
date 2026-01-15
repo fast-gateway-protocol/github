@@ -16,8 +16,8 @@ name = "fgp-github"
 path = "src/main.rs"
 
 [dependencies]
-# FGP daemon SDK
-fgp-daemon = { git = "https://github.com/fast-gateway-protocol/daemon.git" }
+# FGP daemon SDK (local path for development)
+fgp-daemon = { path = "../daemon" }
 
 # HTTP client (disable default-tls to avoid OpenSSL for cross-compilation)
 reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
