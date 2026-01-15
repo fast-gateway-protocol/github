@@ -28,9 +28,10 @@ RUN touch src/main.rs && cargo build --release
 # Stage 2: Minimal runtime image
 FROM debian:bookworm-slim
 
-# Install only CA certificates for HTTPS
+# Install CA certificates and netcat for health checks
 RUN apt-get update && apt-get install -y \
     ca-certificates \
+    netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for security
@@ -48,9 +49,9 @@ WORKDIR /home/fgp
 
 ENV FGP_SOCKET_DIR=/home/fgp/.fgp/services
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-    CMD fgp-github status || exit 1
+# Health check via socket
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD echo '{"id":"hc","v":1,"method":"health","params":{}}' | nc -U /home/fgp/.fgp/services/github/daemon.sock | grep -q '"ok":true'
 
 # Mount point for socket (token passed via env var GITHUB_TOKEN)
 VOLUME ["/home/fgp/.fgp/services"]
